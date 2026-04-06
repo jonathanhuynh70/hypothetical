@@ -3,14 +3,14 @@ from django.utils import timezone
 import datetime
 
 class User(models.Model):
-    partner = models.ForeignKey("self", on_delete=models.CASCADE)
+    partner = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
 
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField("date published")
+    pub_date = models.DateTimeField("date published", default=timezone.now())
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    edittable = models.BooleanField()
+    edittable = models.BooleanField(default=True)
 
     def was_published_recently(self):
         return timezone.now() > self.pub_date > datetime.timedelta(days=1)
@@ -25,8 +25,8 @@ class Comments(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_text = models.CharField(max_length=200)
 
-class Votes(models.Model):
-    comment = models.ForeignKey(Comments, on_delete=models.CASCADE)
+class Vote(models.Model):
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
     voter = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
