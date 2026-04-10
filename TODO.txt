@@ -1,0 +1,4 @@
+[] Allow for unvoting mechanic
+[] Display Votes of questions
+[] Display who voted for what choices
+[] Allow for users to only vote for one choice
